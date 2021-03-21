@@ -29,6 +29,13 @@ def count_clicks(token, bitlink):
     return info["total_clicks"]
 
 
+def get_bitlink(token, bitlink):
+    url_bitlinks = f"https://api-ssl.bitly.com/v4/bitlinks/{bitlink}"
+    headers = {"Authorization": f"Bearer {token}", }
+    response = requests.get(url_bitlinks, headers=headers)
+    return response.ok
+
+
 def main():
     dotenv.load_dotenv()
     TOKEN = getenv("TOKEN")
@@ -36,8 +43,11 @@ def main():
     url = input("Введите ссылку, чтобы узнать количество кликов по ней: ").strip()
 
     try:
-        # bitlink = shorten_link(TOKEN, url)
-        total_clicks = count_clicks(TOKEN, url)
+        bitlink_exist = get_bitlink(TOKEN, url)
+        if bitlink_exist:
+            total_clicks = count_clicks(TOKEN, url)
+        else:
+            bitlink = shorten_link(TOKEN, url)
     except requests.exceptions.ConnectionError:
         print("Сайт не отвечает.")
         return
@@ -45,9 +55,11 @@ def main():
         print("Ошибка! Вы ввели неверную ссылку.")
         return
 
-    print(f"По ссылке {url} перешли {total_clicks} раз(а).")
-    # print(f"Теперь для доступа к {url} Вы можете воспользоваться следующей ссылкой:")
-    # print(bitlink)
+    if bitlink_exist:
+        print(f"По ссылке {url} перешли {total_clicks} раз(а).")
+    else:
+        print(f"Теперь для доступа к {url} Вы можете воспользоваться следующей ссылкой:")
+        print(bitlink)
 
 
 url_user = f"https://api-ssl.bitly.com/v4/user"
