@@ -20,7 +20,8 @@ def shorten_link(token, url):
 def main():
     dotenv.load_dotenv()
     TOKEN = getenv("TOKEN")
-    url = "https://github.com/Mihelitto"
+    url = input("Введите ссылку для сокращения: ").strip()
+    print(f"Теперь для доступа к {url} Вы можете воспользоваться следующей ссылкой:")
 
     try:
         print(shorten_link(TOKEN, url))
