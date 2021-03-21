@@ -21,14 +21,19 @@ def main():
     dotenv.load_dotenv()
     TOKEN = getenv("TOKEN")
     url = input("Введите ссылку для сокращения: ").strip()
-    print(f"Теперь для доступа к {url} Вы можете воспользоваться следующей ссылкой:")
 
     try:
-        print(shorten_link(TOKEN, url))
+        bitlink = shorten_link(TOKEN, url)
     except requests.exceptions.ConnectionError:
         print("Сайт не отвечает.")
+        return
     except requests.exceptions.HTTPError:
-        print("Страница не найдена.")
+        print("Ошибка! Вы ввели неверную ссылку.")
+        return
+
+
+    print(f"Теперь для доступа к {url} Вы можете воспользоваться следующей ссылкой:")
+    print(bitlink)
 
 
 url_user = f"https://api-ssl.bitly.com/v4/user"
