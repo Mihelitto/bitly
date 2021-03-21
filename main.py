@@ -14,7 +14,7 @@ def shorten_link(token, url):
     response.raise_for_status()
 
     info = response.json()
-    print(info["link"])
+    return info["link"]
 
 
 def main():
@@ -23,7 +23,7 @@ def main():
     url = "https://github.com/Mihelitto"
 
     try:
-        shorten_link(TOKEN, url)
+        print(shorten_link(TOKEN, url))
     except requests.exceptions.ConnectionError:
         print("Сайт не отвечает.")
     except requests.exceptions.HTTPError:
