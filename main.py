@@ -3,7 +3,7 @@ import pprint
 import json
 import requests
 import dotenv
-
+from urllib.parse import urlparse
 
 def shorten_link(token, url):
     url_bitlinks = "https://api-ssl.bitly.com/v4/bitlinks"
@@ -39,8 +39,10 @@ def get_bitlink(token, bitlink):
 def main():
     dotenv.load_dotenv()
     TOKEN = getenv("TOKEN")
-    # url = input("Введите ссылку для сокращения: ").strip()
-    url = input("Введите ссылку, чтобы узнать количество кликов по ней: ").strip()
+    url = input("Введите ссылку: ").strip()
+    parser = urlparse(url)
+    if parser.netloc == "bit.ly":
+        url = parser.netloc + parser.path
 
     try:
         bitlink_exist = get_bitlink(TOKEN, url)
