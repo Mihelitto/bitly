@@ -38,19 +38,19 @@ def get_bitlink(token, bitlink):
 
 def main():
     dotenv.load_dotenv()
-    TOKEN = getenv("TOKEN")
+    token = getenv("BITLY_ACCESS_TOKEN")
     url = input("Введите ссылку: ").strip()
     parser = urlparse(url)
     if parser.netloc == "bit.ly":
         url = parser.netloc + parser.path
 
     try:
-        bitlink_exist = get_bitlink(TOKEN, url)
+        bitlink_exist = get_bitlink(token, url)
         if bitlink_exist:
-            total_clicks = count_clicks(TOKEN, url)
+            total_clicks = count_clicks(token, url)
             print(f"По ссылке {url} перешли {total_clicks} раз(а).")
         else:
-            bitlink = shorten_link(TOKEN, url)
+            bitlink = shorten_link(token, url)
             print(f"Теперь для доступа к {url} Вы можете воспользоваться следующей ссылкой:\n{bitlink}")
     except requests.exceptions.ConnectionError:
         print("Сайт не отвечает.")
