@@ -52,10 +52,8 @@ def main():
             print(f"Теперь для доступа к {url} Вы можете воспользоваться следующей ссылкой:\n{bitlink}")
     except requests.exceptions.ConnectionError:
         print("Сайт не отвечает.")
-        return
     except requests.exceptions.HTTPError:
         print("Ошибка! Вы ввели неверную ссылку.")
-        return
 
 
 if __name__ == "__main__":
