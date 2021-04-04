@@ -40,14 +40,13 @@ def main():
     token = getenv("BITLY_ACCESS_TOKEN")
     url = input("Введите ссылку: ").strip()
     parser = urlparse(url)
-    if parser.netloc == "bit.ly":
-        url = parser.netloc + parser.path
+    short_url = parser.netloc + parser.path
 
     try:
-        bitlink_exist = get_bitlink(token, url)
+        bitlink_exist = get_bitlink(token, short_url)
         if bitlink_exist:
-            total_clicks = count_clicks(token, url)
-            print(f"По ссылке {url} перешли {total_clicks} раз(а).")
+            total_clicks = count_clicks(token, short_url)
+            print(f"По ссылке {short_url} перешли {total_clicks} раз(а).")
         else:
             bitlink = shorten_link(token, url)
             print(f"Теперь для доступа к {url} Вы можете воспользоваться следующей ссылкой:\n{bitlink}")
