@@ -7,13 +7,13 @@ from urllib.parse import urlparse
 def shorten_link(token, url):
     url_bitlinks = "https://api-ssl.bitly.com/v4/bitlinks"
     headers = {"Authorization": f"Bearer {token}", }
-    data = {"long_url": url}
+    bitlink_params_for_json = {"long_url": url}
 
-    response = requests.post(url_bitlinks, headers=headers, json=data)
+    response = requests.post(url_bitlinks, headers=headers, json=bitlink_params_for_json)
     response.raise_for_status()
 
-    info = response.json()
-    return info["link"]
+    json_content = response.json()
+    return json_content["link"]
 
 
 def count_clicks(token, bitlink):
@@ -24,8 +24,8 @@ def count_clicks(token, bitlink):
     response = requests.get(url_clicks, headers=headers, params=params)
     response.raise_for_status()
 
-    info = response.json()
-    return info["total_clicks"]
+    json_content = response.json()
+    return json_content["total_clicks"]
 
 
 def get_bitlink(token, bitlink):
