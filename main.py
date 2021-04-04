@@ -1,9 +1,9 @@
 from os import getenv
-import pprint
 import json
 import requests
 import dotenv
 from urllib.parse import urlparse
+
 
 def shorten_link(token, url):
     url_bitlinks = "https://api-ssl.bitly.com/v4/bitlinks"
@@ -48,8 +48,10 @@ def main():
         bitlink_exist = get_bitlink(TOKEN, url)
         if bitlink_exist:
             total_clicks = count_clicks(TOKEN, url)
+            print(f"По ссылке {url} перешли {total_clicks} раз(а).")
         else:
             bitlink = shorten_link(TOKEN, url)
+            print(f"Теперь для доступа к {url} Вы можете воспользоваться следующей ссылкой:\n{bitlink}")
     except requests.exceptions.ConnectionError:
         print("Сайт не отвечает.")
         return
@@ -57,14 +59,6 @@ def main():
         print("Ошибка! Вы ввели неверную ссылку.")
         return
 
-    if bitlink_exist:
-        print(f"По ссылке {url} перешли {total_clicks} раз(а).")
-    else:
-        print(f"Теперь для доступа к {url} Вы можете воспользоваться следующей ссылкой:")
-        print(bitlink)
-
-
-url_user = f"https://api-ssl.bitly.com/v4/user"
 
 if __name__ == "__main__":
     main()
