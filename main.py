@@ -1,5 +1,4 @@
 from os import getenv
-import json
 import requests
 import dotenv
 from urllib.parse import urlparse
@@ -8,9 +7,9 @@ from urllib.parse import urlparse
 def shorten_link(token, url):
     url_bitlinks = "https://api-ssl.bitly.com/v4/bitlinks"
     headers = {"Authorization": f"Bearer {token}", }
-    data = json.dumps({"long_url": url})
+    data = {"long_url": url}
 
-    response = requests.post(url_bitlinks, headers=headers, data=data)
+    response = requests.post(url_bitlinks, headers=headers, json=data)
     response.raise_for_status()
 
     info = response.json()
