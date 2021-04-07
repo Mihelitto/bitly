@@ -5,33 +5,33 @@ from urllib.parse import urlparse
 
 
 def shorten_link(token, url):
-    url_bitlinks = "https://api-ssl.bitly.com/v4/bitlinks"
+    bitlink_creating_url = "https://api-ssl.bitly.com/v4/bitlinks"
     headers = {"Authorization": f"Bearer {token}", }
-    bitlink_params_for_json = {"long_url": url}
+    bitlink_payload = {"long_url": url}
 
-    response = requests.post(url_bitlinks, headers=headers, json=bitlink_params_for_json)
+    response = requests.post(bitlink_creating_url, headers=headers, json=bitlink_payload)
     response.raise_for_status()
 
-    json_content = response.json()
-    return json_content["link"]
+    bitlink_properties = response.json()
+    return bitlink_properties["link"]
 
 
 def count_clicks(token, bitlink):
-    url_clicks = f"https://api-ssl.bitly.com/v4/bitlinks/{bitlink}/clicks/summary"
+    total_clicks_url = f"https://api-ssl.bitly.com/v4/bitlinks/{bitlink}/clicks/summary"
     headers = {"Authorization": f"Bearer {token}", }
     params = {"unit": "day", "units": "-1"}
 
-    response = requests.get(url_clicks, headers=headers, params=params)
+    response = requests.get(total_clicks_url, headers=headers, params=params)
     response.raise_for_status()
 
-    json_content = response.json()
-    return json_content["total_clicks"]
+    bitlink_total_clicks_info = response.json()
+    return bitlink_total_clicks_info["total_clicks"]
 
 
-def get_bitlink(token, bitlink):
-    url_bitlinks = f"https://api-ssl.bitly.com/v4/bitlinks/{bitlink}"
+def check_bitlink(token, bitlink):
+    bitlink_info_url = f"https://api-ssl.bitly.com/v4/bitlinks/{bitlink}"
     headers = {"Authorization": f"Bearer {token}", }
-    response = requests.get(url_bitlinks, headers=headers)
+    response = requests.get(bitlink_info_url, headers=headers)
     return response.ok
 
 
@@ -43,7 +43,7 @@ def main():
     short_url = parser.netloc + parser.path
 
     try:
-        bitlink_exist = get_bitlink(token, short_url)
+        bitlink_exist = check_bitlink(token, short_url)
         if bitlink_exist:
             total_clicks = count_clicks(token, short_url)
             print(f"По ссылке {short_url} перешли {total_clicks} раз(а).")
