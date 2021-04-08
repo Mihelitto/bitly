@@ -40,7 +40,7 @@ def main():
     token = getenv("BITLY_ACCESS_TOKEN")
     url = input("Введите ссылку: ").strip()
     parser = urlparse(url)
-    short_url = f'{parser.netloc}{parser.path}'
+    short_url = f"{parser.netloc}{parser.path}"
 
     try:
         bitlink_exist = check_bitlink(token, short_url)
