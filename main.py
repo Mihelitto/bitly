@@ -1,6 +1,7 @@
 from os import getenv
 import requests
 import dotenv
+import argparse
 from urllib.parse import urlparse
 
 
@@ -38,7 +39,12 @@ def check_bitlink(token, bitlink):
 def main():
     dotenv.load_dotenv()
     token = getenv("BITLY_ACCESS_TOKEN")
-    url = input("Введите ссылку: ").strip()
+    parser = argparse.ArgumentParser(
+        description="Программа создаёт короткую ссылку или показывает число переходов по уже созданой."
+    )
+    parser.add_argument('url', help='Url для сокращения или короткая ссылка')
+    args = parser.parse_args()
+    url = args.url
     parser = urlparse(url)
     short_url = f"{parser.netloc}{parser.path}"
 
