@@ -25,14 +25,14 @@ def count_clicks(token, bitlink):
     response = requests.get(total_clicks_url, headers=headers, params=params)
     response.raise_for_status()
 
-    bitlink_total_clicks_info = response.json()
-    return bitlink_total_clicks_info["total_clicks"]
+    bitlink_total_clicks = response.json()
+    return bitlink_total_clicks["total_clicks"]
 
 
 def check_bitlink(token, bitlink):
-    bitlink_info_url = f"https://api-ssl.bitly.com/v4/bitlinks/{bitlink}"
+    bitlink_check_url = f"https://api-ssl.bitly.com/v4/bitlinks/{bitlink}"
     headers = {"Authorization": f"Bearer {token}", }
-    response = requests.get(bitlink_info_url, headers=headers)
+    response = requests.get(bitlink_check_url, headers=headers)
     return response.ok
 
 
